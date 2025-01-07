@@ -23,6 +23,7 @@ const accountLinks = [
     to: '/profile',
     icon: 'lucide:user'
   },
+
   {
     title: 'Settings',
     to: '/settings',
@@ -30,11 +31,22 @@ const accountLinks = [
   },
   {
     title: 'Sign Out',
-    to: '/signout',
     icon: 'lucide:log-out'
   }
 ]
+
+const router = useRouter()
+
+const executeAction = async (linkTitle: string) => {
+  if (linkTitle === 'Sign Out') {
+    const { logout } = await import('@/utils/supaAuth')
+    const isLoggedOut = await logout()
+
+    if (isLoggedOut) router.push('/login')
+  }
+}
 </script>
+
 <template>
   <aside class="flex flex-col h-screen gap-2 border-r fixed bg-muted/40 lg:w-52 w-16 transition-[width]">
     <div class="flex h-16 items-center border-b px-2 lg:px-4 shrink-0 gap-1 justify-between">
@@ -49,10 +61,11 @@ const accountLinks = [
 
     <nav class="flex flex-col gap-2 justify-between h-full relative">
       <div>
-        <SidebarLinks :links="links"></SidebarLinks>
+        <SidebarLinks :links="links" />
       </div>
+
       <div class="border-y text-center bg-background py-3">
-        <SidebarLinks :links="accountLinks"></SidebarLinks>
+        <SidebarLinks :links="accountLinks" @actionClicked="executeAction" />
       </div>
     </nav>
   </aside>
