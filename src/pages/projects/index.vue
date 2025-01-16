@@ -14,6 +14,16 @@ const { getGroupedCollabs, groupedCollabs } = useCollabs()
 getGroupedCollabs(projects.value ?? [])
 
 const columnsWithCollabs = columns(groupedCollabs)
+
+useHead({
+  title: 'Projects | Pulse',
+  meta: [
+    {
+      name: 'description',
+      content: 'See all projects in Pulse.',
+    },
+  ],
+})
 </script>
 
 <template>
